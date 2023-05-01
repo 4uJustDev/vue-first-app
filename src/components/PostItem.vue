@@ -10,17 +10,13 @@
     </div>
 </template>
 <script>
-import MyButton from '@/components/UI/MyButton.vue';
 export default {
-    components:{
-    MyButton,
-},
-    props:{
-        post:{
+    props: {
+        post: {
             type: Object,
             required: true
         }
-    }
+    },
 }
 </script>
 <style scoped>
