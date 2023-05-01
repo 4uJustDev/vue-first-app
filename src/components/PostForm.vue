@@ -1,17 +1,17 @@
-<template lang="">
+<template>
     <form @submit.prevent>
             <h4>Creating post</h4>
             <my-input 
-                v-model="post.tittle"
+                v-model:value="post.tittle"
                 type="text" 
                 placeholder="Tittle"
             />
             <my-input 
-                v-model="post.body"
+                v-model:value="post.body"
                 type="text" 
                 placeholder="Description"
             />
-            <my-button 1
+            <my-button
                 style = "
                     margin-top: 15px;
                     align-self: flex-end;
