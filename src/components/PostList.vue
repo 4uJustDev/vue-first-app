@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="posts.length > 0">
         <h3>The list of lanquages</h3>
         <post-item 
         v-for="post in posts"
@@ -8,6 +8,9 @@
         @remove="$emit('remove', post)"
         />
     </div>
+    <h2 v-else style="color:red">
+        The list of languages is empty
+    </h2>
 </template>
 <script>
 import PostItem from "@/components/PostItem"
