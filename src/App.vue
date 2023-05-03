@@ -1,12 +1,18 @@
 <template>
     <div class="app">
         <h1>Page with vue</h1>
-        <my-button
-        @click="showModal"
-        style="margin: 15px 0px;"
-        >
-        Create post
-        </my-button>
+        <div class="btns">
+           <my-button
+            @click="showModal"
+            >
+            Create post
+            </my-button> 
+            <my-select 
+            v-model="selectedSort"
+            :options="sortOptions"
+            />
+        </div>
+        
 
         <my-modal v-model:showing="modalVisible">
             <post-form 
@@ -34,7 +40,12 @@ import axios from 'axios'
             return{
                 posts:[],
                 modalVisible: false,
-                isDataLoading: Boolean
+                isDataLoading: Boolean,
+                selectedSort: '',
+                sortOptions:[
+                    {value:"title", name: "By name"},
+                    {value:"body", name: "By description"}
+                ]
             }
         },
         methods:{
@@ -74,5 +85,10 @@ import axios from 'axios'
     }
     .app{
         padding: 20px;
+    }
+    .btns{
+        display: flex;
+        justify-content: space-between;
+        margin: 15px 0px;
     }
 </style>
