@@ -1,7 +1,6 @@
 <template>
     <div class="app">
         <h1>Page with vue</h1>
-
         <my-button
         @click="showModal"
         style="margin: 15px 0px;"
@@ -18,24 +17,24 @@
         <post-list 
         :posts="posts"
         @remove = 'removePost'
+        v-if="!isDataLoading"
         />
+        <div v-else>Data loading ...</div>
     </div>
 </template>
 <script>
 import PostForm from "@/components/PostForm"
 import PostList from "@/components/PostList"
+import axios from 'axios'
     export default{
         components:{
             PostForm, PostList
         },
         data(){
             return{
-                posts:[
-                    {id:1, tittle:'JavaScript 1', body:'the text body 1'},
-                    {id:2, tittle:'JavaScript 2', body:'the text body 2'},
-                    {id:3, tittle:'JavaScript 3', body:'the text body 3'},
-                ],
-                modalVisible:false
+                posts:[],
+                modalVisible: false,
+                isDataLoading: Boolean
             }
         },
         methods:{
@@ -49,7 +48,21 @@ import PostList from "@/components/PostList"
             },
             showModal(){
                 this.modalVisible = true;
+            },
+            async fetchPosts() {
+                this.isDataLoading = true;
+                try{
+                    const response = await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=10');
+                    this.posts = response.data; 
+                }catch(err){
+                    alert("Data loading bad")
+                }finally{
+                    this.isDataLoading = false;
+                }
             }
+        },
+        mounted() {
+            this.fetchPosts();
         }
     }
 </script>
