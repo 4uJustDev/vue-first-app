@@ -64,6 +64,7 @@ import axios from 'axios'
                 this.isDataLoading = true;
                 try{
                     const response = await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=10');
+                    console.log(response.data)
                     this.posts = response.data; 
                 }catch(err){
                     alert("Data loading bad")
