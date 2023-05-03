@@ -1,8 +1,20 @@
 <template>
     <div class="app">
-        <post-form 
-        @create = "createPost"
-        />
+        <h1>Page with vue</h1>
+
+        <my-button
+        @click="showModal"
+        style="margin: 15px 0px;"
+        >
+        Create post
+        </my-button>
+
+        <my-modal v-model:showing="modalVisible">
+            <post-form 
+                @create = "createPost"
+            /> 
+        </my-modal>
+
         <post-list 
         :posts="posts"
         @remove = 'removePost'
@@ -22,17 +34,22 @@ import PostList from "@/components/PostList"
                     {id:1, tittle:'JavaScript 1', body:'the text body 1'},
                     {id:2, tittle:'JavaScript 2', body:'the text body 2'},
                     {id:3, tittle:'JavaScript 3', body:'the text body 3'},
-                ]
+                ],
+                modalVisible:false
             }
         },
         methods:{
             createPost(post){
                 this.posts.push(post);
+                this.modalVisible = false;
             },
             
             removePost(post){
                 this.posts = this.posts.filter(p => p.id !== post.id)
             },
+            showModal(){
+                this.modalVisible = true;
+            }
         }
     }
 </script>
