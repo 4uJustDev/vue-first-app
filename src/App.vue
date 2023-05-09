@@ -21,7 +21,7 @@
         </my-modal>
 
         <post-list 
-        :posts="posts"
+        :posts="sortedPosts"
         @remove = 'removePost'
         v-if="!isDataLoading"
         />
@@ -64,7 +64,6 @@ import axios from 'axios'
                 this.isDataLoading = true;
                 try{
                     const response = await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=10');
-                    console.log(response.data)
                     this.posts = response.data; 
                 }catch(err){
                     alert("Data loading bad")
@@ -75,6 +74,18 @@ import axios from 'axios'
         },
         mounted() {
             this.fetchPosts();
+        },
+        computed:{
+            sortedPosts(){
+                return[...this.posts].sort((post1, post2)=> post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]))
+            }
+        },
+        watch : {
+            // selectedSort(newValue){
+            //     this.posts.sort((post1, post2)=>{
+            //         return post1[this.selectedSort]?.localeCompare(post2[this.selectedSort])
+            //     })
+            // }
         }
     }
 </script>
