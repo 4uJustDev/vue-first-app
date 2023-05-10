@@ -2,12 +2,12 @@
     <form @submit.prevent>
             <h4>Creating post</h4>
             <my-input 
-                v-model:value="post.tittle"
+                v-model="post.title"
                 type="text" 
-                placeholder="Tittle"
+                placeholder="Title"
             />
             <my-input 
-                v-model:value="post.body"
+                v-model="post.body"
                 type="text" 
                 placeholder="Description"
             />
@@ -27,7 +27,7 @@ export default {
     data(){
         return{
             post:{
-                tittle:'',
+                title:'',
                 body: ''
             }
         }
@@ -37,7 +37,7 @@ export default {
             this.post.id = Date.now();
             this.$emit('create', this.post)
             this.post = {
-                tittle:'',
+                title:'',
                 body: ''
             }
         }

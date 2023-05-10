@@ -1,6 +1,10 @@
 <template>
     <div class="app">
         <h1>Page with vue</h1>
+        <my-input
+        v-model="searchQuery"
+        placeholder="Searching..."
+        />
         <div class="btns">
            <my-button
             @click="showModal"
@@ -23,7 +27,7 @@
 
 
         <post-list 
-        :posts="sortedPosts"
+        :posts="sortedAndSearchedPosts"
         @remove = 'removePost'
         v-if="!isDataLoading"
         />
@@ -44,6 +48,7 @@ import axios from 'axios'
                 modalVisible: false,
                 isDataLoading: Boolean,
                 selectedSort: '',
+                searchQuery:'',
                 sortOptions:[
                     {value:"title", name: "By name"},
                     {value:"body", name: "By description"}
@@ -80,6 +85,9 @@ import axios from 'axios'
         computed:{
             sortedPosts(){
                 return[...this.posts].sort((post1, post2)=> post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]))
+            },
+            sortedAndSearchedPosts(){
+                return this.sortedPosts.filter(post=>post.title.toLowerCase().includes(this.searchQuery.toLowerCase()))
             }
         },
         watch : {
