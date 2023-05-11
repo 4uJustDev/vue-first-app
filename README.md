@@ -1,5 +1,5 @@
 # vue-first-app
-This is my first expirience with usinf Vue3. I like it very much. Posts have the main programming logic.
+This is my first expirience with using Vue3. I like it very much. Posts have the main programming logic.
 
 [Link to site](https://earnest-cheesecake-d32d71.netlify.app/)
 
