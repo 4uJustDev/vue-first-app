@@ -32,7 +32,8 @@
         v-if="!isDataLoading"
         />
         <div v-else>Data loading ...</div>
-        <div class="page_wrapper">
+        <div ref="observer" class="observer"></div>
+        <!-- <div class="page_wrapper">
             <div 
             v-for="pageNumber in totalPages" 
             :key="pageNumber"
@@ -43,7 +44,7 @@
             @click="changePage(pageNumber)"
         >
         {{ pageNumber }}</div>
-        </div>
+        </div> -->
     </div>
 </template>
 <script>
@@ -99,12 +100,40 @@ import axios from 'axios'
                     this.isDataLoading = false;
                 }
             },
-            changePage(pageNumber){
-                this.page = pageNumber;
-            }
+            async loadInfinityPages() {
+                try{
+                    this.page+=1;
+                    const response = await axios.get('https://jsonplaceholder.typicode.com/posts', {
+                        params:{
+                            _page: this.page,
+                            _limit: this.limit
+                        }
+                    });
+                    this.totalPages = Math.ceil(response.headers['x-total-count']/this.limit)
+                    this.posts = [...this.posts, ...response.data]; 
+                }catch(err){
+                    alert("Data loading bad")
+                }
+            },
+            // changePage(pageNumber){
+            //     this.page = pageNumber;
+            // }
         },
         mounted() {
             this.fetchPosts();
+            console.log(this.$refs.observer)
+            let options = {
+            rootMargin: "0px",
+            threshold: 1.0,
+            };
+            let callback = (entries,observer)=>{
+                if(entries[0].isIntersecting && this.page < this.totalPages){
+                    this.loadInfinityPages()
+                }
+            }
+
+            let observer = new IntersectionObserver(callback, options);
+            observer.observe(this.$refs.observer);
         },
         computed:{
             sortedPosts(){
@@ -115,9 +144,9 @@ import axios from 'axios'
             }
         },
         watch : {
-            page(){
-                this.fetchPosts();
-            }
+            // page(){
+            //     this.fetchPosts();
+            // }
         }
     }
 </script>
@@ -146,6 +175,10 @@ import axios from 'axios'
     }
     .current_page{
         border: 2px solid teal;
+    }
+    .observer{
+        height: 30px;
+        background-color: green;
     }
 </style>
 <style scoped>
