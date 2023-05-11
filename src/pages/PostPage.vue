@@ -1,7 +1,6 @@
 <template>
     <div>
         <h1>Page with vue</h1>
-        <router-link to="/"><h1>back</h1></router-link>
         <my-input
         v-model="searchQuery"
         placeholder="Searching..."
